@@ -77,3 +77,48 @@ Uses **Lazy.nvim** for plugin management. Plugins are defined in `lua/mario/plug
 - **auto-session**: Session management
 - **which-key**: Keymap helper
 - **tokyonight**: Colorscheme
+
+## Neovim Usage Guide
+
+### Navigation with Relative Line Numbers
+**IMPORTANT**: This config uses `relativenumber = true`, which means:
+- Numbers shown on lines are **relative distances** from cursor
+- `4j` jumps to the line showing "4" below cursor
+- `4k` jumps to the line showing "4" above cursor
+- The relative numbers ARE the jump targets - use them directly with j/k
+
+### Essential Keybindings
+**Leader key = SPACE**
+
+#### File Navigation
+- `<Space>ff` - Find files (Telescope)
+- `<Space>fs` - Search text in files (live grep)
+- `<Space>e` - Toggle file explorer (nvim-tree)
+
+#### Line Navigation
+- `10G` or `10gg` - Jump to absolute line 10
+- `4j` - Jump down to line showing "4" (relative)
+- `4k` - Jump up to line showing "4" (relative)
+- `gg` - First line of file
+- `G` - Last line of file
+- `:42` - Jump to line 42
+
+#### Editing
+- `dd` - Delete line (and copy to clipboard)
+- `yy` - Copy line
+- `p` - Paste after cursor/line
+- `P` - Paste before cursor/line
+- `u` - Undo
+- `Ctrl+r` - Redo
+- `jk` - Exit insert mode (alternative to ESC)
+
+#### Window Management
+- `<Space>sv` - Split vertically
+- `<Space>sh` - Split horizontally
+- `<Space>sx` - Close split
+- `Ctrl+h/j/k/l` - Navigate between splits
+
+#### Display Issues
+- If lines appear wrapped but shouldn't be: `:set nowrap`
+- For markdown files that auto-wrap: `:setlocal nowrap`
+- Navigate wrapped lines: use `gj`/`gk` instead of `j`/`k`
