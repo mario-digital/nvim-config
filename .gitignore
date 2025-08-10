@@ -16,3 +16,6 @@ tags
 
 # Claude Code local settings
 .claude/
+
+# Local scripts
+github-mcp-wrapper.sh
