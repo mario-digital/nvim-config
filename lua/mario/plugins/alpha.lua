@@ -32,5 +32,8 @@ return {
 
     -- Disable folding on alpha buffer
     vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
+
+    -- Disable nvim-tree auto open on startup
+    vim.cmd([[autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2]])
   end,
 }

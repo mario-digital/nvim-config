@@ -13,6 +13,9 @@ return {
         width = 35,
         relativenumber = true,
       },
+      hijack_directories = {
+        enable = false,
+      },
       -- change folder arrow icons
       renderer = {
         indent_markers = {
