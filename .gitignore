@@ -1,0 +1,18 @@
+# Neovim runtime files
+.netrwhist
+*~
+*.swp
+*.swo
+
+# Session files
+Session.vim
+
+# Tags
+tags
+.tags
+
+# Language server and other tool data
+.DS_Store
+
+# Claude Code local settings
+.claude/
