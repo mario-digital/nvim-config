@@ -9,7 +9,9 @@ Modular Neovim configuration built on Lazy.nvim with focus on development produc
 - [ripgrep](https://github.com/BurntSushi/ripgrep) for Telescope live grep
 - [fd](https://github.com/sharkdp/fd) for better file finding performance
 - C compiler for Treesitter parsers
-- Node.js (optional, for additional language servers)
+- Node.js and npm for LSP servers and formatters
+- Python 3 for Python development tools
+- [lazygit](https://github.com/jesseduffield/lazygit) for git UI (optional)
 
 ## Installation
 
@@ -45,15 +47,27 @@ nvim
             ├── colorscheme.lua # Tokyo Night theme
             ├── comment.lua     # Code commenting
             ├── dressing.lua    # UI enhancements
+            ├── formatting.lua # Code formatting (conform.nvim)
+            ├── gitsigns.lua    # Git integration in buffers
             ├── indent-blankline.lua # Indentation guides
             ├── init.lua        # Common dependencies
+            ├── lazygit.lua     # Git UI integration
+            ├── linting.lua     # Asynchronous linting
+            ├── lsp/
+            │   ├── lspconfig.lua # LSP server configurations
+            │   └── mason.lua   # LSP/tool installer
             ├── lualine.lua     # Status line
             ├── nvim-cmp.lua    # Completion engine
+            ├── nvim-surround.lua # Surround text objects
             ├── nvim-tree.lua   # File explorer
+            ├── plenary.lua     # Lua utility library
+            ├── substitute.lua  # Enhanced substitution
             ├── telescope.lua   # Fuzzy finder
             ├── todo-comments.lua # TODO highlighting
             ├── treesitter.lua  # Syntax highlighting
+            ├── trouble.lua     # Diagnostics UI
             ├── vim-maximizer.lua # Window maximization
+            ├── vim-tmux-navigator.lua # Tmux/vim navigation
             └── which-key.lua   # Keymap hints
 ```
 
@@ -98,12 +112,61 @@ Leader key: `<Space>`
 - `<leader>-` - Decrement number
 - `gcc` - Comment line
 - `gc` - Comment selection (visual mode)
+- `s` - Substitute with motion
+- `ss` - Substitute line
+- `S` - Substitute to end of line
+- Surround operations (nvim-surround):
+  - `ys{motion}{char}` - Add surround
+  - `ds{char}` - Delete surround
+  - `cs{old}{new}` - Change surround
 
-### LSP (when configured)
-- `gd` - Go to definition
-- `gr` - Find references
-- `K` - Hover documentation
+### LSP
+- `gR` - Show LSP references
+- `gD` - Go to declaration
+- `gd` - Show LSP definitions
+- `gi` - Show implementations
+- `gt` - Show type definitions
 - `<leader>ca` - Code actions
+- `<leader>rn` - Smart rename
+- `<leader>D` - Buffer diagnostics
+- `<leader>d` - Line diagnostics
+- `[d` - Previous diagnostic
+- `]d` - Next diagnostic
+- `K` - Hover documentation
+- `<leader>rs` - Restart LSP
+
+### Git
+- `<leader>lg` - Open lazygit
+- `]h` - Next git hunk
+- `[h` - Previous git hunk
+- `<leader>hs` - Stage hunk
+- `<leader>hr` - Reset hunk
+- `<leader>hS` - Stage buffer
+- `<leader>hR` - Reset buffer
+- `<leader>hu` - Undo stage hunk
+- `<leader>hp` - Preview hunk
+- `<leader>hb` - Blame line
+- `<leader>hB` - Toggle line blame
+- `<leader>hd` - Diff this
+- `<leader>hD` - Diff this ~
+
+### Diagnostics
+- `<leader>xw` - Workspace diagnostics
+- `<leader>xd` - Document diagnostics
+- `<leader>xq` - Quickfix list
+- `<leader>xl` - Location list
+- `<leader>xt` - TODO list
+
+### Formatting/Linting
+- `<leader>mp` - Format file or range
+- `<leader>l` - Trigger linting
+
+### Tmux Navigation
+- `<C-h>` - Navigate left
+- `<C-j>` - Navigate down
+- `<C-k>` - Navigate up
+- `<C-l>` - Navigate right
+- `<C-\>` - Navigate to previous
 
 ## Configuration Details
 
@@ -115,57 +178,86 @@ Leader key: `<Space>`
 - No swap files
 - Smart case search
 
-### Plugin Highlights
+### Plugin Details
 
-**Telescope**: Extensible fuzzy finder with live grep, file browsing, and git integration. Configured with smart path display and fzf-native for performance.
+**Core Dependencies**
+- **plenary.nvim**: Lua utility functions used by multiple plugins (telescope, gitsigns, etc.)
 
-**Treesitter**: Incremental parsing for accurate syntax highlighting and code understanding. Auto-installs parsers for common languages.
+**Navigation & Search**
+- **Telescope**: Extensible fuzzy finder with live grep, file browsing, and git integration. Configured with smart path display and fzf-native for performance.
+- **nvim-tree**: File explorer with git status indicators, file operations, and configurable filters.
+- **vim-tmux-navigator**: Seamless navigation between vim splits and tmux panes using consistent keybindings.
 
-**nvim-cmp**: Completion framework with LSP, buffer, path, and snippet sources. Includes LuaSnip for snippet expansion.
+**Code Intelligence**
+- **Treesitter**: Incremental parsing for accurate syntax highlighting and code understanding. Auto-installs parsers for common languages.
+- **nvim-cmp**: Completion framework with sources for LSP, buffer text, file paths, and snippets. Includes LuaSnip for snippet expansion with friendly-snippets collection.
+- **Mason**: Portable package manager for LSP servers, DAP servers, linters, and formatters. Auto-installs configured tools.
+- **nvim-lspconfig**: Quickstart configurations for Neovim's built-in LSP client. Pre-configured for TypeScript, Python, Lua, HTML, CSS, and more.
 
-**auto-session**: Workspace persistence. Automatically saves session state, excludes common directories (~/Downloads, ~/Desktop).
+**Editing Enhancements**
+- **nvim-surround**: Add, delete, and change surrounding pairs (quotes, brackets, tags) with intuitive motions.
+- **substitute.nvim**: Enhanced substitution operations with motion support and visual mode integration.
+- **comment.nvim**: Smart commenting with language-aware comment strings.
+- **autopairs**: Automatic insertion of closing brackets, quotes, and other pairs.
+- **todo-comments**: Highlight and search TODO, FIXME, NOTE comments with custom styling.
 
-**Tokyo Night**: Custom color scheme with modified backgrounds for better contrast in terminal environments.
+**Git Integration**
+- **gitsigns.nvim**: Git decorations in the sign column, inline blame, hunk actions, and diff preview.
+- **lazygit.nvim**: Terminal UI for git operations, accessible within Neovim.
 
-## Adding Language Servers
+**Code Quality**
+- **conform.nvim**: Lightweight, asynchronous formatter. Configured for Prettier (JS/TS/HTML/CSS), Black (Python), and Stylua (Lua).
+- **nvim-lint**: Asynchronous linting framework. Runs ESLint for JavaScript/TypeScript and Pylint for Python on save.
+- **trouble.nvim**: Pretty list for diagnostics, references, quickfix, and location lists with workspace-wide diagnostic aggregation.
 
-This configuration is LSP-ready but doesn't include specific language servers. To add LSP support:
+**UI Enhancements**
+- **Tokyo Night**: Dark color scheme with modified backgrounds for terminal contrast.
+- **lualine**: Fast statusline with git branch, diagnostics, and file info.
+- **bufferline**: Buffer tabs with diagnostics integration and close buttons.
+- **alpha-nvim**: Customizable start screen with recent files and project shortcuts.
+- **which-key**: Displays available keybindings in popup as you type.
+- **dressing.nvim**: Improved UI for vim.ui.select and vim.ui.input.
+- **indent-blankline**: Visual indentation guides with scope highlighting.
 
-1. Install language servers:
-```bash
-# Examples
-npm install -g typescript-language-server
-npm install -g pyright
-brew install lua-language-server
+**Session Management**
+- **auto-session**: Workspace persistence. Automatically saves and restores session state, excludes ~/Downloads and ~/Desktop.
+
+## Language Server Configuration
+
+Mason automatically installs and manages LSP servers, formatters, and linters. The following are pre-configured:
+
+### LSP Servers
+- **tsserver**: TypeScript/JavaScript
+- **html**: HTML
+- **cssls**: CSS/SCSS/Less
+- **tailwindcss**: Tailwind CSS
+- **svelte**: Svelte
+- **lua_ls**: Lua
+- **graphql**: GraphQL
+- **emmet_ls**: Emmet abbreviations
+- **prismals**: Prisma
+- **pyright**: Python
+
+### Formatters
+- **prettier**: JavaScript, TypeScript, HTML, CSS, JSON, Markdown
+- **stylua**: Lua
+- **black**: Python
+- **isort**: Python imports
+
+### Linters
+- **eslint_d**: JavaScript/TypeScript
+- **pylint**: Python
+
+Mason will automatically install these tools on first launch. To install additional tools:
+
+```vim
+:Mason                  " Open Mason UI
+:MasonInstall <tool>    " Install specific tool
+:MasonUninstall <tool>  " Remove tool
+:MasonUpdate            " Update all tools
 ```
 
-2. Create `lua/mario/plugins/lsp/lspconfig.lua`:
-```lua
-return {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
-  },
-  config = function()
-    local lspconfig = require("lspconfig")
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    
-    -- Configure servers
-    lspconfig.tsserver.setup({ capabilities = capabilities })
-    lspconfig.pyright.setup({ capabilities = capabilities })
-    lspconfig.lua_ls.setup({
-      capabilities = capabilities,
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" }
-          }
-        }
-      }
-    })
-  end
-}
-```
+To add more language servers, edit `lua/mario/plugins/lsp/mason.lua` and add to the `ensure_installed` lists.
 
 ## Plugin Management
 
