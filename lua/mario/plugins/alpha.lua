@@ -1,6 +1,7 @@
 return {
   "goolord/alpha-nvim",
-  event = "VimEnter",
+  lazy = false,
+  priority = 1000,
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local alpha = require("alpha")
@@ -34,24 +35,18 @@ return {
     -- Disable folding on alpha buffer
     vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
 
-    -- Disable nvim-tree auto open on startup
-    vim.cmd([[autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2]])
-    
-    -- Prevent nvim-tree from hijacking the dashboard
-    vim.api.nvim_create_autocmd({ "VimEnter" }, {
-      callback = function(data)
-        -- buffer is a directory
-        local directory = vim.fn.isdirectory(data.file) == 1
-
-        if not directory then
-          return
+    -- Open Alpha dashboard on startup
+    vim.api.nvim_create_autocmd("VimEnter", {
+      pattern = "*",
+      once = true,
+      callback = function()
+        -- Only open alpha if we started with no arguments
+        if vim.fn.argc() == 0 then
+          -- Schedule to ensure all plugins are loaded
+          vim.schedule(function()
+            require("alpha").start()
+          end)
         end
-
-        -- change to the directory
-        vim.cmd.cd(data.file)
-
-        -- open alpha
-        require("alpha").start(true)
       end,
     })
   end,
