@@ -116,7 +116,10 @@ Uses **Lazy.nvim** for plugin management. Plugins are defined in `lua/mario/plug
 - `<Space>sv` - Split vertically
 - `<Space>sh` - Split horizontally
 - `<Space>sx` - Close split
-- `Ctrl+h/j/k/l` - Navigate between splits
+- `Ctrl+h` - Move cursor to LEFT window
+- `Ctrl+l` - Move cursor to RIGHT window
+- `Ctrl+j` - Move cursor to window BELOW
+- `Ctrl+k` - Move cursor to window ABOVE
 
 #### Display Issues
 - If lines appear wrapped but shouldn't be: `:set nowrap`
