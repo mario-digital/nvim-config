@@ -60,14 +60,12 @@ nvim
             ├── nvim-cmp.lua    # Completion engine
             ├── nvim-surround.lua # Surround text objects
             ├── nvim-tree.lua   # File explorer
-            ├── plenary.lua     # Lua utility library
             ├── substitute.lua  # Enhanced substitution
             ├── telescope.lua   # Fuzzy finder
             ├── todo-comments.lua # TODO highlighting
             ├── treesitter.lua  # Syntax highlighting
             ├── trouble.lua     # Diagnostics UI
             ├── vim-maximizer.lua # Window maximization
-            ├── vim-tmux-navigator.lua # Tmux/vim navigation
             └── which-key.lua   # Keymap hints
 ```
 
@@ -112,13 +110,20 @@ Leader key: `<Space>`
 - `<leader>-` - Decrement number
 - `gcc` - Comment line
 - `gc` - Comment selection (visual mode)
-- `s` - Substitute with motion
-- `ss` - Substitute line
-- `S` - Substitute to end of line
+- `gs` - Substitute with motion
+- `gss` - Substitute line
+- `gS` - Substitute to end of line
 - Surround operations (nvim-surround):
   - `ys{motion}{char}` - Add surround
   - `ds{char}` - Delete surround
   - `cs{old}{new}` - Change surround
+
+### Motion (Flash)
+- `s` - Flash jump (search with labels)
+- `S` - Flash treesitter (structural jump)
+- `r` - Remote flash (operator mode)
+- `R` - Treesitter search (operator/visual mode)
+- `<C-s>` - Toggle flash search (command mode)
 
 ### LSP
 - `gR` - Show LSP references
@@ -181,12 +186,12 @@ Leader key: `<Space>`
 ### Plugin Details
 
 **Core Dependencies**
-- **plenary.nvim**: Lua utility functions used by multiple plugins (telescope, gitsigns, etc.)
+- **plenary.nvim**: Lua utility functions used by multiple plugins (telescope, gitsigns, etc.) - loaded via init.lua
+- **vim-tmux-navigator**: Seamless navigation between vim splits and tmux panes using consistent keybindings - loaded via init.lua
 
 **Navigation & Search**
 - **Telescope**: Extensible fuzzy finder with live grep, file browsing, and git integration. Configured with smart path display and fzf-native for performance.
 - **nvim-tree**: File explorer with git status indicators, file operations, and configurable filters.
-- **vim-tmux-navigator**: Seamless navigation between vim splits and tmux panes using consistent keybindings.
 
 **Code Intelligence**
 - **Treesitter**: Incremental parsing for accurate syntax highlighting and code understanding. Auto-installs parsers for common languages.
@@ -200,6 +205,7 @@ Leader key: `<Space>`
 - **comment.nvim**: Smart commenting with language-aware comment strings.
 - **autopairs**: Automatic insertion of closing brackets, quotes, and other pairs.
 - **todo-comments**: Highlight and search TODO, FIXME, NOTE comments with custom styling.
+- **flash.nvim**: Navigate with search labels, jump to any location with minimal keystrokes.
 
 **Git Integration**
 - **gitsigns.nvim**: Git decorations in the sign column, inline blame, hunk actions, and diff preview.
