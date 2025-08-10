@@ -16,6 +16,11 @@ return {
       hijack_directories = {
         enable = false,
       },
+      hijack_netrw = true,
+      disable_netrw = true,
+      open_on_setup = false,
+      open_on_setup_file = false,
+      open_on_tab = false,
       -- change folder arrow icons
       renderer = {
         indent_markers = {

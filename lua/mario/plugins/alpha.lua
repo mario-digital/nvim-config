@@ -1,6 +1,7 @@
 return {
   "goolord/alpha-nvim",
   event = "VimEnter",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
@@ -35,5 +36,23 @@ return {
 
     -- Disable nvim-tree auto open on startup
     vim.cmd([[autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2]])
+    
+    -- Prevent nvim-tree from hijacking the dashboard
+    vim.api.nvim_create_autocmd({ "VimEnter" }, {
+      callback = function(data)
+        -- buffer is a directory
+        local directory = vim.fn.isdirectory(data.file) == 1
+
+        if not directory then
+          return
+        end
+
+        -- change to the directory
+        vim.cmd.cd(data.file)
+
+        -- open alpha
+        require("alpha").start(true)
+      end,
+    })
   end,
 }
