@@ -52,13 +52,32 @@ return {
 
     lspconfig.lua_ls.setup({
       capabilities = capabilities,
+      root_dir = function(fname)
+        -- If it's a wezterm config, use the actual file location as root
+        if fname:match("wezterm%.lua$") then
+          local actual_path = vim.fn.resolve(fname)
+          return vim.fn.fnamemodify(actual_path, ":h")
+        end
+        -- Otherwise use the default root pattern
+        local util = require("lspconfig.util")
+        return util.root_pattern(".luarc.json", ".git")(fname) or vim.fn.getcwd()
+      end,
       settings = {
         Lua = {
           diagnostics = {
-            globals = { "vim" },
+            globals = { "vim", "wezterm" },  -- Added wezterm as global
           },
           completion = {
             callSnippet = "Replace",
+          },
+          workspace = {
+            checkThirdParty = false,  -- This helps with symlink issues
+            library = {},  -- Explicitly set empty library
+            maxPreload = 100000,
+            preloadFileSize = 10000,
+          },
+          telemetry = {
+            enable = false,
           },
         },
       },
