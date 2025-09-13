@@ -15,6 +15,8 @@ Modular Neovim configuration built on Lazy.nvim with focus on development produc
 
 ## Installation
 
+### Option 1: Direct Clone (Simple)
+
 ```bash
 # Install Neovim (if not already installed)
 # macOS
@@ -34,6 +36,60 @@ git clone https://github.com/mario-digital/nvim-config.git ~/.config/nvim
 
 # Start Neovim - plugins will auto-install
 nvim
+```
+
+### Option 2: Clone with Symlink (Recommended for Development)
+
+Using a symlink allows you to keep the repository in your preferred location and easily pull updates from GitHub without affecting your Neovim config location.
+
+```bash
+# Install Neovim first (see commands above)
+
+# Backup existing configuration
+mv ~/.config/nvim ~/.config/nvim.bak
+
+# Navigate to where you want to keep the repository
+cd ~/your-preferred-directory  # Could be ~/Projects, ~/repos, ~/code, etc.
+
+# Verify your location (this will show the full path)
+pwd
+
+# Clone the repository here
+git clone https://github.com/mario-digital/nvim-config.git nvim-config
+
+# Create symlink from ~/.config/nvim to the cloned repository
+# Replace /path/to/your/nvim-config with the actual path from pwd above
+ln -s $(pwd)/nvim-config ~/.config/nvim
+
+# Verify the symlink was created correctly
+ls -la ~/.config/nvim
+
+# Start Neovim - plugins will auto-install
+nvim
+```
+
+#### Example with actual paths:
+```bash
+# If you're in ~/Development
+cd ~/Development
+pwd  # Shows: /Users/yourname/Development
+git clone https://github.com/mario-digital/nvim-config.git nvim-config
+ln -s $(pwd)/nvim-config ~/.config/nvim
+```
+
+#### Benefits of Symlink Approach:
+- Keep your config with your other projects
+- Simple `git pull` to update from GitHub
+- Easier to manage multiple configurations
+- Can quickly switch configs by changing the symlink
+
+#### For AI Assistant Users:
+If you're using an AI assistant to set this up, provide this command:
+> "I'm in [current directory from pwd]. Create a symlink from ~/.config/nvim to the nvim-config folder in my current directory after removing any existing ~/.config/nvim directory"
+
+The assistant should run:
+```bash
+rm -rf ~/.config/nvim && ln -s $(pwd)/nvim-config ~/.config/nvim
 ```
 
 ## Structure
