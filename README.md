@@ -92,6 +92,12 @@ The assistant should run:
 rm -rf ~/.config/nvim && ln -s $(pwd)/nvim-config ~/.config/nvim
 ```
 
+## What You'll See
+
+After installation, when you run `nvim`, you'll see the dashboard:
+
+![Neovim Startup Screen](./images/nvim_start.png)
+
 ## Structure
 
 ```
