@@ -16,6 +16,16 @@ Modular Neovim configuration built on Lazy.nvim with focus on development produc
 ## Installation
 
 ```bash
+# Install Neovim (if not already installed)
+# macOS
+brew install neovim
+
+# Ubuntu/Debian
+sudo apt install neovim
+
+# Arch Linux
+sudo pacman -S neovim
+
 # Backup existing configuration
 mv ~/.config/nvim ~/.config/nvim.bak
 
